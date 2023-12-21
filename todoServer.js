@@ -9,6 +9,8 @@ app.use(bodyParser.json());
   
 module.exports = app;
 
+
+// storage is a array used as a database. 
 var storage =[{
   id :'1',
   title : 'Buy Groceries',
@@ -24,11 +26,12 @@ var storage =[{
 }]
 
 
-
+// it shows all the todo items present in the array
 app.get('/todos', function(req, res) {
   res.send(storage)
 })
 
+//it fetches a specific item from the array if present
 app.get('/todos/:id', function(req, res) {
 
   const taskId = req.params.id;
@@ -41,15 +44,8 @@ app.get('/todos/:id', function(req, res) {
  
 })
 
+//it adds a new todo item to the array storage
 app.post('/todos', function(req, res) {
-  
-
-  // const newTask = {                                       // One way to do it using req.headers also you can send a json using body
-  //   id : (storage.length+1).toString(),
-  //   title:req.headers['title'],
-  //   completed:req.headers['completed'],
-  //   description:req.headers['description']
-  // }
 
   const newTask = {
     id:(storage.length+1).toString(),
@@ -62,13 +58,14 @@ app.post('/todos', function(req, res) {
   res.status(201).send({id:newTask['id']})
 })
 
+// it helps us to update a specific todo item like mark it as complete
 app.put('/todos/:id', function(req, res) {
 
   const taskId = req.params.id;
 
   let taskToUpdate = storage.find(task => task.id === taskId);  //instead of for loop used before to iterate use the find method.
   if (!taskToUpdate) {
-    return res.status(404).send('Task not found');
+    return res.status(404).send('Task not found!!');
   }
 
   if (req.body.title) {
@@ -85,6 +82,8 @@ app.put('/todos/:id', function(req, res) {
   res.status(200).send({ message: 'Task updated successfully', data: taskToUpdate });
 })
 
+
+//It deletes the item from the list
 app.delete('/todos/:id', function(req, res) {
   
   
