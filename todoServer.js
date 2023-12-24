@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 
 const app = express();
-const port = 3000;
+const port = 3002;
   
 app.use(bodyParser.json());
   
@@ -11,24 +11,25 @@ module.exports = app;
 
 
 // storage is a array used as a database. 
-var storage =[{
-  id :'1',
-  title : 'Buy Groceries',
-  completed :'False',
-  description : 'I should buy groceries'
+// var storage =[{
+//   id :'1',
+//   title : 'Buy Groceries',
+//   completed :'False',
+//   description : 'I should buy groceries'
 
-},
-{
-  id :'2',
-  title : 'Study cohort week 2',
-  completed :'False',
-  description : 'I should study and complete assignments'
-}]
+// },
+// {
+//   id :'2',
+//   title : 'Study cohort week 2',
+//   completed :'False',
+//   description : 'I should study and complete assignments'
+// }]
 
+var storage=[]
 
 // it shows all the todo items present in the array
 app.get('/todos', function(req, res) {
-  res.send(storage)
+  res.json(storage)
 })
 
 //it fetches a specific item from the array if present
@@ -40,7 +41,7 @@ app.get('/todos/:id', function(req, res) {
     return res.status(404).send('Task not found');
   }
 
-  res.status(200).send({ message: 'Task Retreived successfully', taskToUpdate });
+  res.status(200).json(taskToUpdate);
  
 })
 
@@ -55,7 +56,7 @@ app.post('/todos', function(req, res) {
   }
   storage.push(newTask)
 
-  res.status(201).send({id:newTask['id']})
+  res.status(201).json(newTask)
 })
 
 // it helps us to update a specific todo item like mark it as complete
@@ -79,7 +80,7 @@ app.put('/todos/:id', function(req, res) {
   }
 
 
-  res.status(200).send({ message: 'Task updated successfully', data: taskToUpdate });
+  res.status(200).json(taskToUpdate );
 })
 
 
@@ -97,10 +98,13 @@ app.delete('/todos/:id', function(req, res) {
     return res.status(404).send('Task not found');
 
   }
-  const deletedTask = storage.splice(taskIndex, 1)[0];
+  const deletedTask = storage.splice(taskIndex, 1);
   res.status(200).send({ message: 'Task deleted successfully', data: deletedTask });
 })
 
+app.use((req, res, next) => {
+    res.status(404).send();
+  });
 
 app.listen(port, function() {
 
