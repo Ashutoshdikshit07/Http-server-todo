@@ -1,17 +1,6 @@
 
+It stores the todo list in the array locally which is 
+not feasible as it gets cleared everytime you restart the server
 
-Make sure you install required packages Like express and body-parser
-
-
-I am the Ash branch who made the changes to this line.
-
-I am also added by Ash
-I am too added by Ash
-I am too added by Ash
-
-
-
-
-I am the line added by feature branch
-i am added by features
-
+It was created for learning purpose, checkout the other git repository 
+which is connected to the database and the data can be fetched even if the server is restarted.
